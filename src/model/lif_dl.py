@@ -76,7 +76,7 @@ class MultiHeadedAttention(nn.Module):
         assert q.size() == k.size() == v.size()
         bt, n, c = q.size() 
         b = bt // t
-        c_h = c // self.head    # Note: Does this mean c must be equal to d_model ? Otherwise, key.view() will break ?
+        c_h = c // self.head    # Note: Channel dimension from encoder CNN matches d_model of transformer
         key = self.key_embedding(k)
         query = self.query_embedding(q)
         value = self.value_embedding(v)
@@ -88,7 +88,7 @@ class MultiHeadedAttention(nn.Module):
             att = att.permute(0, 1, 3, 2, 4).contiguous().view(bt, n, c)
         elif self.mode == 't':
             key = key.view(b, t, 2, self.h//2, 2, self.w//2, self.head, c_h)
-            key = key.permute(0, 2, 4, 6, 1, 3, 5, 7).contiguous().view(b, 4, self.head, -1, c_h)
+            key = key.permute(0, 2, 4, 6, 1, 3, 5, 7).contiguous().view(b, 4, self.head, -1, c_h)  # A time series of 4 x 4 patches for each head
             query = query.view(b, t, 2, self.h//2, 2, self.w//2, self.head, c_h)
             query = query.permute(0, 2, 4, 6, 1, 3, 5, 7).contiguous().view(b, 4, self.head, -1, c_h)
             value = value.view(b, t, 2, self.h//2, 2, self.w//2, self.head, c_h)
