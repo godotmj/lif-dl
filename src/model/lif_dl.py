@@ -76,7 +76,7 @@ class MultiHeadedAttention(nn.Module):
         assert q.size() == k.size() == v.size()
         bt, n, c = q.size() 
         b = bt // t
-        c_h = c // self.head    # Note: Does this mean c_h must be equal to d_model ? Otherwise, key.view() will break ?
+        c_h = c // self.head    # Note: Does this mean c must be equal to d_model ? Otherwise, key.view() will break ?
         key = self.key_embedding(k)
         query = self.query_embedding(q)
         value = self.value_embedding(v)
