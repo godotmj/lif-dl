@@ -98,7 +98,7 @@ class MultiHeadedAttention(nn.Module):
             att = att.permute(0, 4, 1, 5, 2, 6, 3, 7).contiguous().view(bt, n, c)
         elif self.mode =='st':
             key = key.view(b, t, self.h, self.w, self.head, c_h)
-            key = key.permute(0, 4, 1, 2, 3, 5).contiguous().view(b, self.head, -1, c_h)
+            key = key.permute(0, 4, 1, 2, 3, 5).contiguous().view(b, self.head, -1, c_h) # A time series of images for each head
             query = query.view(b, t, self.h, self.w, self.head, c_h)
             query = query.permute(0, 4, 1, 2, 3, 5).contiguous().view(b, self.head, -1, c_h)
             value = value.view(b, t, self.h, self.w, self.head, c_h)
