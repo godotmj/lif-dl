@@ -191,7 +191,7 @@ class DecoderTransformer(nn.Module):
         kv, q, t = x['x'], x['y'], x['t']
         q = self.norm1(q)
         kv = self.norm1(kv)
-        x = q + self.dropout(self.attention(q, kv, kv, t))
+        x = q + self.dropout(self.attention(q, kv, kv, t))  # Adding q, i.e. forcing to attention --- thus mixing forcing with ice status
         y = self.norm2(x)
         x = x + self.ffn(y)
         return {'x': x, 't': t}
