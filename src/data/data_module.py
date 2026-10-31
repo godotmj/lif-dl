@@ -615,7 +615,7 @@ class Ice_Cover_Dataset(Dataset):
                     f"{self.directory}{site}.nc", 
                     engine="h5netcdf"
                 ).sel(time=pd.date_range(earliest_needed, latest_needed, freq='D')
-                )[self.vars + ['lake_mask', 'IMS_Surface_Values', 'flake_ice_depth']]
+                )[self.vars + ['lake_mask', 'IMS_Surface_Values', 'flake_ice_depth']] # Note: Only take data with names in self.vars plus three more variables.
                 
             except KeyError as e:
                 # Provide helpful error message
