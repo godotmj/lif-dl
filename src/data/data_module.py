@@ -555,9 +555,9 @@ class Ice_Cover_Dataset(Dataset):
             mask = self.dataset[site]["lake_mask"]
             # site_means = site_data.where(mask == 1).mean(dim=['time', 'x', 'y']).to_array().values.astype('float32')
             # site_stds  = site_data.where(mask == 1).std(dim=['time', 'x', 'y']).to_array().values.astype('float32')   
-            site_means = site_data.mean(dim=['time', 'x', 'y']).to_array().values.astype('float32')
+            site_means = site_data.mean(dim=['time', 'x', 'y']).to_array().values.astype('float32') # Note: mean across t, x, y and thus all data for a variable
             site_stds  = site_data.std(dim=['time', 'x', 'y']).to_array().values.astype('float32')
-            site_stats[site] = dict(zip(self.vars, list(zip(site_means, site_stds))))
+            site_stats[site] = dict(zip(self.vars, list(zip(site_means, site_stds)))) # Note: For each site, create (mean, stds) for each variable
 
         # Combine the means / std
         cur_mean, cur_std = None, None
