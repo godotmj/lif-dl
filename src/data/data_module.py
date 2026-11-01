@@ -444,8 +444,8 @@ class Ice_Cover_Dataset(Dataset):
             ims_sequence = np.nan_to_num(ims_sequence, nan=2) # set all values to 'out of bounds'
         
         ims_sequence = torch.from_numpy(ims_sequence).long()
-        ims_sequence = one_hot(ims_sequence, num_classes=3).float()
-        ims_sequence = torch.moveaxis(ims_sequence, -1, 1)
+        ims_sequence = one_hot(ims_sequence, num_classes=3).float()  # Note: Shape is now (t, x, y, 3)
+        ims_sequence = torch.moveaxis(ims_sequence, -1, 1)   # Note: Shape is now (t, 3, x, y)
 
         # Assert that class 2 is equal to the lake mask
         if not missing_ims:
