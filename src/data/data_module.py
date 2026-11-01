@@ -408,10 +408,10 @@ class Ice_Cover_Dataset(Dataset):
         # 1. Map index to site and target date
         assert (index >= 0 and index < self.N), "index out of dataset range."
         site_no = bisect.bisect_right([rang[1] for rang in self.index_map.values()], index)
-        site_name = self.sites[site_no]
+        site_name = self.sites[site_no]  # Note: Find the data corresponding to index that belongs to a certain lake. 
         
         # Get the target date (first prediction date for this sample)
-        target_date = self.target_dates[index % len(self.target_dates)]
+        target_date = self.target_dates[index % len(self.target_dates)] # Note: 'index' is based on _len_(self), which returns self.N, the total length
         
         # Calculate window boundaries
         # Input: [target_date - seq_length, target_date - 1]
